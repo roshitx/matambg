@@ -1,114 +1,192 @@
 "use client"
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
 import { Share2 } from "lucide-react"
-import { COMPARISONS, type ComparisonCategory } from "@/lib/constants/comparisons"
+import { motion, AnimatePresence } from "framer-motion"
+import { COMPARISONS, type ComparisonCategory, type ComparisonItem } from "@/lib/constants/comparisons"
+import { CATEGORY_BORDER, CATEGORY_LABELS } from "@/lib/constants/ui"
 import { MBG } from "@/lib/constants/mbg"
 import { formatNumber, formatIDR } from "@/lib/utils/format"
+import { cn } from "@/lib/utils"
 import { ShareModal } from "./ShareModal"
-import { AICardGenerator } from "./AICardGenerator"
 
 type FilterCategory = ComparisonCategory | "all"
 
-const CATEGORIES: { value: FilterCategory; label: string }[] = [
-  { value: "all", label: "Semua" },
-  { value: "makanan", label: "🍛 Makanan" },
-  { value: "wisata", label: "✈️ Wisata" },
-  { value: "militer", label: "⚓ Militer" },
-  { value: "teknologi", label: "📱 Teknologi" },
-  { value: "infrastruktur", label: "🏗️ Infrastruktur" },
-]
+// Count-up animation triggered when element enters viewport
+function CountUp({ target }: { target: number }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const [value, setValue] = useState(0)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        observer.disconnect()
+        let start: number | null = null
+        const step = (ts: number) => {
+          if (!start) start = ts
+          const p = Math.min((ts - start) / 1200, 1)
+          const ease = 1 - Math.pow(1 - p, 3) // easeOutCubic
+          setValue(Math.floor(ease * target))
+          if (p < 1) requestAnimationFrame(step)
+          else setValue(target)
+        }
+        requestAnimationFrame(step)
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [target])
+
+  return <span ref={ref}>{formatNumber(value)}</span>
+}
+
+interface CardProps {
+  item: ComparisonItem
+  onShare: (item: ComparisonItem) => void
+}
+
+function ComparisonCard({ item, onShare }: CardProps) {
+  const units = Math.floor(MBG.DAILY_BUDGET / item.unitPrice)
+  const isFeatured = item.featured === true
+
+  return (
+    <article
+      className={cn(
+        "group relative rounded-xl border border-border bg-card p-5",
+        "border-l-2 transition-all duration-200",
+        "hover:-translate-y-0.5 hover:shadow-sm hover:border-border/60 cursor-pointer",
+        isFeatured && "bg-primary/[0.02]",
+        CATEGORY_BORDER[item.category]
+      )}
+    >
+      {/* Top row: category badge + share button */}
+      <div className="mb-3 flex items-start justify-between">
+        <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-primary">
+          {CATEGORY_LABELS[item.category]}
+        </span>
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onShare(item) }}
+          aria-label={`Bagikan ${item.name}`}
+          className="cursor-pointer rounded-sm p-0.5 text-muted-foreground/40 opacity-0 transition-all hover:text-foreground group-hover:opacity-100"
+        >
+          <Share2 size={11} />
+        </button>
+      </div>
+
+      {/* Emoji */}
+      <div
+        className={cn(
+          "mb-3 leading-none",
+          isFeatured ? "text-5xl" : "text-4xl"
+        )}
+      >
+        {item.emoji}
+      </div>
+
+      {/* Count-up number */}
+      <p
+        className={cn(
+          "font-display font-extrabold leading-none text-amber-600",
+          isFeatured ? "text-4xl md:text-5xl" : "text-2xl md:text-3xl"
+        )}
+      >
+        {units > 0 ? <CountUp target={units} /> : "< 1"}
+      </p>
+
+      <p className="mt-1.5 text-[11px] font-medium text-foreground line-clamp-2">
+        {item.unit} {item.name}
+      </p>
+
+      <p className="mt-0.5 font-mono text-[9px] text-muted-foreground/60">
+        @ {formatIDR(item.unitPrice, true)}/{item.unit}
+      </p>
+    </article>
+  )
+}
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.22, ease: [0.33, 1, 0.68, 1] as [number, number, number, number] } },
+}
+
+const gridVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.04 } },
+}
 
 export function ComparisonGrid() {
   const [activeCategory, setActiveCategory] = useState<FilterCategory>("all")
-  const [shareItem, setShareItem] = useState<(typeof COMPARISONS)[number] | null>(null)
+  const [shareItem, setShareItem] = useState<ComparisonItem | null>(null)
 
   const filtered =
     activeCategory === "all"
       ? COMPARISONS
       : COMPARISONS.filter((c) => c.category === activeCategory)
 
+  const categories = [
+    "all",
+    ...new Set(COMPARISONS.map((c) => c.category)),
+  ] as FilterCategory[]
+
   return (
     <>
       {/* Sticky filter bar */}
-      <div className="sticky top-14 z-40 -mx-4 mb-6 px-4 py-3 backdrop-blur-md">
-        <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {CATEGORIES.map(({ value, label }) => (
-            <button
-              key={value}
-              onClick={() => setActiveCategory(value)}
-              className={`flex-shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-                activeCategory === value
-                  ? "bg-primary text-white"
-                  : "border border-white/10 bg-white/5 text-[#A3A3A3] hover:bg-white/10 hover:text-white"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+      <div className="sticky top-14 z-30 border-b border-border bg-background/95 backdrop-blur-md">
+        <div className="mx-auto max-w-6xl px-4 py-3">
+          <div className="flex items-center gap-3">
+            <span className="shrink-0 font-mono text-[10px] tabular-nums text-muted-foreground">
+              {filtered.length} item
+            </span>
+            <div className="relative min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex gap-1.5">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setActiveCategory(cat)}
+                    className={cn(
+                      "shrink-0 cursor-pointer whitespace-nowrap rounded-sm px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] transition-all duration-150",
+                      activeCategory === cat
+                        ? "bg-primary text-white"
+                        : "border border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+                    )}
+                  >
+                    {CATEGORY_LABELS[cat]}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Comparison cards grid */}
-      <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <AnimatePresence mode="popLayout">
-          {filtered.map((item) => {
-            const units = Math.floor(MBG.ANNUAL_BUDGET / item.unitPrice)
-            const isFeatured = item.featured === true
-
-            return (
+      {/* Card grid */}
+      <div className="mx-auto max-w-6xl px-4 py-8">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory}
+            initial="hidden"
+            animate="visible"
+            variants={gridVariants}
+            className="grid grid-cols-2 gap-4 sm:grid-cols-3"
+          >
+            {filtered.map((item) => (
               <motion.div
                 key={item.id}
-                layout
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.2 }}
-                className={`group relative flex flex-col rounded-2xl border border-white/08 bg-card p-5 transition-colors hover:border-white/15 ${
-                  isFeatured ? "sm:col-span-2 lg:col-span-1" : ""
-                }`}
+                variants={cardVariants}
+                className={cn(item.featured && "sm:col-span-2")}
               >
-                {isFeatured && (
-                  <span className="absolute right-3 top-3 rounded-full bg-primary/20 px-2 py-0.5 text-xs font-medium text-primary">
-                    Featured
-                  </span>
-                )}
-
-                <div className="mb-4 flex items-start justify-between">
-                  <span className={isFeatured ? "text-4xl" : "text-3xl"}>{item.emoji}</span>
-                  <button
-                    onClick={() => setShareItem(item)}
-                    className="rounded-md p-1.5 text-[#525252] opacity-0 transition-all hover:bg-white/10 hover:text-white group-hover:opacity-100"
-                    aria-label={`Bagikan ${item.name}`}
-                  >
-                    <Share2 size={14} />
-                  </button>
-                </div>
-
-                <p className="mb-1 text-sm font-semibold text-white">{item.name}</p>
-                <p className="mb-3 text-xs text-[#525252]">{item.description}</p>
-
-                <div className="mt-auto">
-                  <p className="text-xs uppercase tracking-widest text-[#525252]">
-                    Rp 335T bisa beli
-                  </p>
-                  <p className={`font-heading font-bold text-accent ${isFeatured ? "text-3xl" : "text-2xl"}`}>
-                    {units > 0 ? formatNumber(units) : "< 1"}
-                  </p>
-                  <p className="text-xs text-[#A3A3A3]">{item.unit}</p>
-                  <p className="mt-2 text-xs text-[#525252]">
-                    @ {formatIDR(item.unitPrice, true)}/{item.unit}
-                  </p>
-                </div>
+                <ComparisonCard item={item} onShare={setShareItem} />
               </motion.div>
-            )
-          })}
+            ))}
+          </motion.div>
         </AnimatePresence>
       </div>
-
-      {/* AI Card Generator */}
-      <AICardGenerator days={1} />
 
       {/* Share modal */}
       {shareItem && (

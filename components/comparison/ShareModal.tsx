@@ -14,11 +14,11 @@ interface Props {
 export function ShareModal({ item, onClose }: Props) {
   const [copied, setCopied] = useState(false)
 
-  const units = Math.floor(MBG.ANNUAL_BUDGET / item.unitPrice)
+  const units = Math.floor(MBG.DAILY_BUDGET / item.unitPrice)
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://matambg.id"
   const url = `${appUrl}/perbandingan`
 
-  const tweetText = `1 tahun anggaran #MBG = ${formatNumber(units)} ${item.unit} ${item.name}!\nData: Rp 335 Triliun/tahun dari APBN 2026 🇮🇩\nCek lebih banyak: ${url} #mataMBG`
+  const tweetText = `1 hari anggaran #MBG = ${formatNumber(units)} ${item.unit} ${item.name}!\nData: Rp 1,2 Triliun/hari dari APBN 2026 🇮🇩\nCek lebih banyak: ${url} #mataMBG`
   const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`
 
   const handleCopy = async () => {
@@ -29,13 +29,15 @@ export function ShareModal({ item, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/30 p-4 backdrop-blur-sm"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-card p-6">
+      <div className="relative w-full max-w-md rounded-xl border border-border bg-card p-6 shadow-xl">
         <button
+          type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-md p-1 text-[#525252] hover:bg-white/10 hover:text-white"
+          className="absolute right-4 top-4 cursor-pointer rounded-md p-1 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+          aria-label="Tutup"
         >
           <X size={16} />
         </button>
@@ -43,16 +45,14 @@ export function ShareModal({ item, onClose }: Props) {
         <div className="mb-4 flex items-center gap-3">
           <span className="text-3xl">{item.emoji}</span>
           <div>
-            <p className="font-semibold text-white">{item.name}</p>
-            <p className="text-sm text-[#A3A3A3]">
-              Bagikan perbandingan ini
-            </p>
+            <p className="font-medium text-foreground">{item.name}</p>
+            <p className="text-sm text-muted-foreground">Bagikan perbandingan ini</p>
           </div>
         </div>
 
         {/* Tweet preview */}
-        <div className="mb-4 rounded-xl border border-white/08 bg-card p-4 text-sm text-[#A3A3A3]">
-          <p className="whitespace-pre-line text-white">{tweetText}</p>
+        <div className="mb-4 rounded-xl border border-border bg-secondary/50 p-4 text-sm">
+          <p className="whitespace-pre-line text-foreground">{tweetText}</p>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -60,16 +60,17 @@ export function ShareModal({ item, onClose }: Props) {
             href={tweetUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-xl bg-[#1DA1F2] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1a8cd8]"
+            className="flex items-center justify-center gap-2 rounded-lg bg-[#1DA1F2] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1a8cd8]"
           >
             𝕏 Tweet Ini
           </a>
 
           <button
+            type="button"
             onClick={handleCopy}
-            className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+            className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-border bg-secondary px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-secondary/80"
           >
-            {copied ? <Check size={16} className="text-[#22C55E]" /> : <Copy size={16} />}
+            {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} />}
             {copied ? "Link tersalin!" : "Salin Link"}
           </button>
         </div>

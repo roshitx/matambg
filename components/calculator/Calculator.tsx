@@ -2,30 +2,30 @@
 
 import { useState, useRef, useId } from "react"
 import { toPng } from "html-to-image"
-import { Share2 } from "lucide-react"
 import { motion } from "framer-motion"
 import { COMPARISONS, type ComparisonCategory } from "@/lib/constants/comparisons"
+import { CATEGORY_LABELS } from "@/lib/constants/ui"
 import { MBG } from "@/lib/constants/mbg"
 import { formatIDR, formatNumber } from "@/lib/utils/format"
 import { calcUnitsFromAmount } from "@/lib/utils/calculate"
+import { cn } from "@/lib/utils"
 import { ComparisonCard } from "./ComparisonCard"
 
 const MAX_DAYS = 365
 const MAX_AMOUNT = MBG.ANNUAL_BUDGET
 
-const CATEGORY_LABELS: Record<ComparisonCategory | "all", string> = {
-  all: "Semua",
-  makanan: "Makanan",
-  wisata: "Wisata",
-  militer: "Militer",
-  teknologi: "Teknologi",
-  infrastruktur: "Infrastruktur",
-  global: "Global",
-  "luar-angkasa": "Luar Angkasa",
-  olahraga: "Olahraga",
-  hiburan: "Hiburan",
-  kesehatan: "Kesehatan",
-}
+const PRESETS_DAYS = [
+  { label: "1 Hari", days: 1 },
+  { label: "1 Minggu", days: 7 },
+  { label: "1 Bulan", days: 30 },
+  { label: "1 Tahun", days: 365 },
+]
+
+const PRESETS_AMOUNT = [
+  { label: "1 Juta", value: 1_000_000 },
+  { label: "1 Miliar", value: 1_000_000_000 },
+  { label: "1 Triliun", value: 1_000_000_000_000 },
+]
 
 function formatInputValue(n: number): string {
   return n > 0 ? n.toLocaleString("id-ID") : ""
@@ -62,6 +62,17 @@ export function Calculator() {
     setInputDisplay(formatInputValue(amount))
   }
 
+  const setPresetDays = (d: number) => {
+    const newAmount = d * MBG.DAILY_BUDGET
+    setAmount(newAmount)
+    setInputDisplay(formatInputValue(newAmount))
+  }
+
+  const setPresetAmount = (v: number) => {
+    setAmount(v)
+    setInputDisplay(formatInputValue(v))
+  }
+
   const handleShare = async () => {
     if (!shareCardRef.current) return
     try {
@@ -80,6 +91,12 @@ export function Calculator() {
     }
   }
 
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://matambg.id"
+  const tweetText = `Dengan anggaran MBG ${clampedDays} hari (${formatIDR(amount, true)}), kita bisa beli ${formatNumber(calcUnitsFromAmount(amount, COMPARISONS.find(c => c.id === "indomie-goreng")?.unitPrice ?? 3500))} bungkus Indomie!\nCek selengkapnya: ${appUrl}/kalkulator #MBG #mataMBG`
+  const waText = `Tau gak? Dengan anggaran MBG ${clampedDays} hari (${formatIDR(amount, true)}), kita bisa beli banyak banget! Cek: ${appUrl}/kalkulator`
+  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`
+  const waUrl = `https://wa.me/?text=${encodeURIComponent(waText)}`
+
   const filtered =
     activeCategory === "all"
       ? COMPARISONS
@@ -89,113 +106,124 @@ export function Calculator() {
 
   return (
     <>
-      {/* Controls — Lembar Kerja */}
-      <div className="mb-10 border border-border bg-card">
-        {/* Panel header */}
-        <div className="flex items-center justify-between border-b border-border px-5 py-3">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-            Lembar Kerja
-          </p>
-          <p className="font-mono text-[10px] text-muted-foreground">
-            APBN 2026 · BGN
-          </p>
-        </div>
+      {/* Two-panel controls */}
+      <div className="mb-8 grid gap-4 md:grid-cols-2">
 
-        <div className="px-5 py-6">
-          {/* Day readout */}
-          <div className="mb-6 flex items-end justify-between gap-4">
-            <div>
-              <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                Jumlah Hari
-              </p>
-              <div className="flex items-baseline gap-2">
-                <span className="font-display text-5xl font-extrabold leading-none text-foreground md:text-6xl">
-                  {clampedDays}
-                </span>
-                <span className="text-lg font-medium text-muted-foreground">hari</span>
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                Total Anggaran
-              </p>
-              <p className="font-mono text-lg font-bold text-amber-600 md:text-xl">
-                {formatIDR(amount, true)}
-              </p>
-            </div>
+        {/* Left panel — Jumlah Hari */}
+        <div className="rounded-xl border border-border bg-card p-5">
+          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            Jumlah Hari
+          </p>
+
+          {/* Big day number */}
+          <div className="mb-3 flex items-baseline gap-2">
+            <span className="font-display text-6xl font-extrabold leading-none text-foreground">
+              {clampedDays}
+            </span>
+            <span className="text-lg font-medium text-muted-foreground">hari</span>
+          </div>
+
+          {/* Rupiah pill */}
+          <div className="mb-4">
+            <span className="inline-flex items-center rounded-sm bg-primary/10 px-3 py-1 font-mono text-sm font-medium text-primary">
+              = {formatIDR(amount, true)}
+            </span>
           </div>
 
           {/* Slider */}
-          <div className="mb-6">
-            <input
-              id={sliderId}
-              type="range"
-              min={1}
-              max={MAX_DAYS}
-              value={clampedDays}
-              onChange={handleDayChange}
-              className="h-1 w-full cursor-pointer appearance-none rounded-none bg-border accent-primary"
-            />
-            <div className="mt-1.5 flex justify-between font-mono text-[10px] text-muted-foreground">
-              <span>1 hari</span>
-              <span>365 hari</span>
-            </div>
+          <input
+            id={sliderId}
+            type="range"
+            min={1}
+            max={MAX_DAYS}
+            value={clampedDays}
+            onChange={handleDayChange}
+            className="h-1 w-full cursor-pointer appearance-none rounded-full bg-border accent-primary"
+          />
+          <div className="mt-1.5 flex justify-between font-mono text-[10px] text-muted-foreground">
+            <span>1 hari</span>
+            <span>365 hari</span>
           </div>
 
-          {/* Dashed divider */}
-          <div className="mb-5 border-t border-dashed border-border" />
+          {/* Day presets */}
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {PRESETS_DAYS.map(({ label, days: d }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => setPresetDays(d)}
+                className={cn(
+                  "cursor-pointer rounded-sm px-2.5 py-1 text-[10px] font-semibold transition-all duration-150",
+                  clampedDays === d
+                    ? "bg-primary text-white"
+                    : "border border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Right panel — Nominal Rupiah */}
+        <div className="rounded-xl border border-border bg-card p-5">
+          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            Atau Masukkan Nominal (IDR)
+          </p>
 
           {/* Amount input */}
-          <div>
-            <label
-              htmlFor="amount-input"
-              className="mb-2 block text-[10px] font-semibold uppercase tracking-widest text-muted-foreground"
-            >
-              Atau masukkan nominal (IDR)
-            </label>
-            <div className="flex items-center border border-border bg-background px-4 py-2.5 focus-within:border-primary/50">
-              <span className="mr-2 font-mono text-sm text-muted-foreground">Rp</span>
-              <input
-                id="amount-input"
-                type="text"
-                inputMode="numeric"
-                value={inputDisplay}
-                onChange={handleAmountChange}
-                onBlur={handleAmountBlur}
-                placeholder="1.200.000.000.000"
-                className="flex-1 bg-transparent font-mono text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none"
-              />
-            </div>
+          <div className="mb-3 flex items-center rounded-lg border border-border bg-background px-4 py-3 focus-within:border-primary/50">
+            <span className="mr-2 font-mono text-sm text-muted-foreground">Rp</span>
+            <input
+              type="text"
+              inputMode="numeric"
+              value={inputDisplay}
+              onChange={handleAmountChange}
+              onBlur={handleAmountBlur}
+              placeholder="1.200.000.000.000"
+              className="flex-1 bg-transparent font-mono text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none"
+            />
           </div>
 
-          {/* Dashed divider */}
-          <div className="my-5 border-t border-dashed border-border" />
-
-          {/* Footer row */}
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-mono text-xs text-muted-foreground">
-                {clampedDays}× anggaran harian MBG
-              </p>
-              <p className="font-mono text-xs text-muted-foreground/60">
-                @ {formatIDR(MBG.DAILY_BUDGET, true)}/hari
-              </p>
-            </div>
-            <button
-              onClick={handleShare}
-              className="flex cursor-pointer items-center gap-2 border border-border bg-background px-4 py-2 text-xs font-medium text-foreground transition-colors hover:bg-secondary"
-            >
-              <Share2 size={12} />
-              Bagikan
-            </button>
+          {/* Days equivalent pill */}
+          <div className="mb-4">
+            <span className="inline-flex items-center rounded-sm bg-amber-500/10 px-3 py-1 font-mono text-xs font-medium text-amber-600">
+              = {clampedDays} hari anggaran MBG
+            </span>
           </div>
+
+          {/* Amount presets */}
+          <div className="mb-4 flex flex-wrap gap-1.5">
+            {PRESETS_AMOUNT.map(({ label, value }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => setPresetAmount(value)}
+                className="cursor-pointer rounded-sm border border-border px-2.5 py-1 text-[10px] font-semibold text-muted-foreground transition-all duration-150 hover:border-foreground/30 hover:text-foreground"
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          <p className="text-[10px] text-muted-foreground/60">
+            Semua perhitungan berdasarkan Rp {(MBG.DAILY_BUDGET / 1e12).toFixed(1)}T/hari · APBN 2026
+          </p>
         </div>
       </div>
 
-      {/* Output — Daftar Belanja */}
+      {/* Divider "Setara Dengan" */}
+      <div className="mb-6 flex items-center gap-4">
+        <div className="flex-1 border-t border-dashed border-border" />
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+          Setara Dengan
+        </p>
+        <div className="flex-1 border-t border-dashed border-border" />
+      </div>
+
+      {/* Daftar Belanja section */}
       <div>
-        {/* Section header */}
-        <div className="mb-5 border-b border-border pb-4">
+        <div className="mb-4 border-b border-border pb-3">
           <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">
             Daftar Belanja
           </p>
@@ -204,29 +232,29 @@ export function Calculator() {
           </h2>
         </div>
 
-        {/* Category tabs — horizontally scrollable */}
-        <div className="relative mb-6">
-          <div className="flex gap-px overflow-x-auto bg-border [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {/* Category filter pills */}
+        <div className="mb-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex gap-1.5">
             {categories.map((cat) => (
               <button
                 key={cat}
+                type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`shrink-0 cursor-pointer whitespace-nowrap px-4 py-2 text-[10px] font-semibold uppercase tracking-widest transition-colors ${
+                className={cn(
+                  "shrink-0 cursor-pointer whitespace-nowrap rounded-sm px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] transition-all duration-150",
                   activeCategory === cat
                     ? "bg-primary text-white"
-                    : "bg-card text-muted-foreground hover:bg-secondary"
-                }`}
+                    : "border border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+                )}
               >
                 {CATEGORY_LABELS[cat]}
               </button>
             ))}
           </div>
-          {/* Right fade — scroll hint */}
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {filtered.map((item, i) => {
             const units = calcUnitsFromAmount(amount, item.unitPrice)
             return (
@@ -234,12 +262,47 @@ export function Calculator() {
                 key={item.id}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04 }}
+                transition={{ delay: i * 0.04, duration: 0.22 }}
               >
                 <ComparisonCard item={item} units={units} />
               </motion.div>
             )
           })}
+        </div>
+      </div>
+
+      {/* Share section */}
+      <div className="mt-10 rounded-xl border border-dashed border-primary/20 bg-primary/[0.02] p-6 text-center">
+        <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">
+          Bagikan
+        </p>
+        <h3 className="mb-4 font-display text-xl font-bold text-foreground">
+          Bagikan hasil kalkulator ini
+        </h3>
+        <div className="flex flex-wrap justify-center gap-2">
+          <a
+            href={tweetUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg bg-[#1DA1F2] px-4 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-[#1a8cd8]"
+          >
+            ↗ Share ke X
+          </a>
+          <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg bg-[#25D366] px-4 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-[#22c25e]"
+          >
+            ↗ Share ke WhatsApp
+          </a>
+          <button
+            type="button"
+            onClick={handleShare}
+            className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-xs font-semibold text-foreground transition-colors hover:bg-secondary"
+          >
+            ⬇ Download Gambar
+          </button>
         </div>
       </div>
 
@@ -287,6 +350,7 @@ export function Calculator() {
                     flex: 1,
                     background: "#FFFFFF",
                     border: "1px solid #E5E0D8",
+                    borderRadius: "12px",
                     padding: 24,
                     textAlign: "center",
                   }}

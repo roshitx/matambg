@@ -1,6 +1,6 @@
 import Exa from "exa-js"
 import { anthropic } from "@/lib/api/claude"
-import type { NewsArticle, NewsResponse } from "@/types/news"
+import type { NewsArticle } from "@/types/news"
 
 export const revalidate = 21600 // 6 jam
 
@@ -9,6 +9,21 @@ const QUERIES: Record<string, string> = {
   kontroversi: "kontroversi masalah MBG Makan Bergizi Gratis keracunan",
   anggaran: "anggaran MBG 335 triliun APBN 2026",
   kebijakan: "kebijakan BGN MBG Prabowo 2026",
+}
+
+function sourceFromDomain(domain: string): string {
+  const map: Record<string, string> = {
+    "kompas.com": "Kompas",
+    "tempo.co": "Tempo",
+    "cnnindonesia.com": "CNN Indonesia",
+    "bbc.com": "BBC Indonesia",
+    "detik.com": "Detik",
+    "tribunnews.com": "Tribun",
+    "republika.co.id": "Republika",
+    "antaranews.com": "Antara",
+  }
+  const base = domain.split(".")[0]
+  return map[domain] ?? (base.charAt(0).toUpperCase() + base.slice(1))
 }
 
 export async function GET(req: Request) {
@@ -39,7 +54,7 @@ export async function GET(req: Request) {
     })
 
     const newsWithSummary = await Promise.all(
-      results.results.map(async (article): Promise<NewsArticle> => {
+      results.results.map(async (article, i): Promise<NewsArticle> => {
         const text = "text" in article ? (article.text as string | undefined) : undefined
 
         const summary = await anthropic.messages.create({
@@ -56,7 +71,7 @@ HANYA tulis ringkasannya, tanpa awalan apapun.`,
           ],
         })
 
-        const summaryText =
+        const aiSummary =
           summary.content[0].type === "text" ? summary.content[0].text : ""
 
         const lowerTitle = article.title?.toLowerCase() ?? ""
@@ -82,24 +97,23 @@ HANYA tulis ringkasannya, tanpa awalan apapun.`,
           sentiment = "positif"
         }
 
+        const domain = new URL(article.url).hostname.replace("www.", "")
+
         return {
           id: article.id,
           title: article.title ?? "",
           url: article.url,
-          publishedDate: article.publishedDate ?? "",
-          domain: new URL(article.url).hostname.replace("www.", ""),
-          summary: summaryText,
+          publishedAt: article.publishedDate ?? new Date().toISOString(),
+          domain,
+          source: sourceFromDomain(domain),
+          aiSummary,
           sentiment,
+          isBreaking: i === 0,
         }
       })
     )
 
-    const response: NewsResponse = {
-      news: newsWithSummary,
-      fetchedAt: new Date().toISOString(),
-    }
-
-    return Response.json(response)
+    return Response.json({ news: newsWithSummary, fetchedAt: new Date().toISOString() })
   } catch (error) {
     const message = error instanceof Error ? error.message : "Internal server error"
     return Response.json({ error: message }, { status: 500 })

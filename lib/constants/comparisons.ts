@@ -13,6 +13,7 @@ export interface ComparisonItem {
   category: ComparisonCategory
   featured?: boolean
   source?: string
+  imageQuery?: string
 }
 
 export const COMPARISONS: ComparisonItem[] = [
@@ -25,6 +26,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 15_000,
     unit: "porsi",
     category: "makanan",
+    imageQuery: "indonesian rice food padang",
   },
   {
     id: "gudeg-jogja",
@@ -34,6 +36,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 25_000,
     unit: "porsi",
     category: "makanan",
+    imageQuery: "indonesian traditional food yogyakarta",
   },
   {
     id: "indomie-goreng",
@@ -44,6 +47,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unit: "bungkus",
     category: "makanan",
     featured: true,
+    imageQuery: "instant noodles bowl food",
   },
   {
     id: "gorengan",
@@ -53,6 +57,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 2_000,
     unit: "biji",
     category: "makanan",
+    imageQuery: "fried snack street food",
   },
 
   // ── WISATA ─────────────────────────────────────────────────
@@ -64,6 +69,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 500_000,
     unit: "tiket",
     category: "wisata",
+    imageQuery: "bali indonesia tropical island",
   },
   {
     id: "trip-lombok",
@@ -73,6 +79,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 1_500_000,
     unit: "trip",
     category: "wisata",
+    imageQuery: "lombok beach tropical resort",
   },
 
   // ── MILITER ────────────────────────────────────────────────
@@ -85,6 +92,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unit: "kapal",
     category: "militer",
     featured: true,
+    imageQuery: "aircraft carrier navy military ship ocean",
   },
   {
     id: "jet-f35",
@@ -94,6 +102,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 1_550_000_000_000,
     unit: "pesawat",
     category: "militer",
+    imageQuery: "fighter jet military aircraft sky",
   },
   {
     id: "tank-leopard",
@@ -103,6 +112,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 108_500_000_000,
     unit: "tank",
     category: "militer",
+    imageQuery: "military tank armor battlefield",
   },
   {
     id: "kapal-selam",
@@ -112,6 +122,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 7_750_000_000_000,
     unit: "kapal",
     category: "militer",
+    imageQuery: "submarine underwater military naval",
   },
   {
     id: "rudal-tomahawk",
@@ -121,6 +132,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 28_985_000_000,
     unit: "rudal",
     category: "militer",
+    imageQuery: "missile launch military defense",
   },
 
   // ── TEKNOLOGI ──────────────────────────────────────────────
@@ -133,6 +145,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unit: "unit",
     category: "teknologi",
     featured: true,
+    imageQuery: "iphone smartphone apple technology",
   },
   {
     id: "macbook-pro",
@@ -142,6 +155,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 28_999_000,
     unit: "unit",
     category: "teknologi",
+    imageQuery: "macbook laptop apple computer workspace",
   },
   {
     id: "motor-listrik",
@@ -151,6 +165,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 30_000_000,
     unit: "unit",
     category: "teknologi",
+    imageQuery: "electric scooter motorcycle modern",
   },
 
   // ── INFRASTRUKTUR ──────────────────────────────────────────
@@ -162,6 +177,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 2_000_000_000,
     unit: "puskesmas",
     category: "infrastruktur",
+    imageQuery: "clinic health center building",
   },
   {
     id: "guru-gaji",
@@ -171,6 +187,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 500_000,
     unit: "guru",
     category: "infrastruktur",
+    imageQuery: "teacher classroom education school",
   },
   {
     id: "rumah-subsidi",
@@ -180,6 +197,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 185_000_000,
     unit: "unit",
     category: "infrastruktur",
+    imageQuery: "house home residential neighborhood",
   },
   {
     id: "jalan-tol",
@@ -189,6 +207,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 100_000_000_000,
     unit: "km",
     category: "infrastruktur",
+    imageQuery: "highway road aerial infrastructure",
   },
   {
     id: "ambulans",
@@ -198,6 +217,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 400_000_000,
     unit: "unit",
     category: "infrastruktur",
+    imageQuery: "ambulance emergency vehicle",
   },
   {
     id: "beasiswa-kuliah",
@@ -207,6 +227,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 8_000_000,
     unit: "mahasiswa",
     category: "infrastruktur",
+    imageQuery: "university students campus study",
   },
 
   // ── GLOBAL ─────────────────────────────────────────────────
@@ -239,6 +260,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unit: "tahun",
     category: "luar-angkasa",
     featured: true,
+    imageQuery: "nasa space rocket launch cosmos",
   },
   {
     id: "roket-falcon9",
@@ -248,6 +270,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 1_038_500_000_000,
     unit: "roket",
     category: "luar-angkasa",
+    imageQuery: "spacex rocket launch pad",
   },
   {
     id: "roket-starship",
@@ -257,6 +280,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 1_550_000_000_000,
     unit: "launch",
     category: "luar-angkasa",
+    imageQuery: "starship spacex rocket launch",
   },
   {
     id: "teleskop-webb",
@@ -266,6 +290,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 155_000_000_000_000,
     unit: "teleskop",
     category: "luar-angkasa",
+    imageQuery: "james webb telescope galaxy nebula",
   },
   {
     id: "satelit-komunikasi",
@@ -275,6 +300,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 3_100_000_000_000,
     unit: "satelit",
     category: "luar-angkasa",
+    imageQuery: "satellite space orbit earth",
   },
   {
     id: "iss-biaya",
@@ -284,6 +310,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 2_325_000_000_000_000,
     unit: "stasiun",
     category: "luar-angkasa",
+    imageQuery: "international space station orbit",
   },
 
   // ── OLAHRAGA ───────────────────────────────────────────────
@@ -296,6 +323,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unit: "transfer",
     category: "olahraga",
     featured: true,
+    imageQuery: "soccer football player stadium crowd",
   },
   {
     id: "gaji-mbappe",
@@ -305,6 +333,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 3_400_000_000_000,
     unit: "tahun",
     category: "olahraga",
+    imageQuery: "football player pitch running",
   },
   {
     id: "formula1-mobil",
@@ -314,6 +343,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 232_500_000_000,
     unit: "mobil",
     category: "olahraga",
+    imageQuery: "formula 1 race car speed track",
   },
   {
     id: "stadion-gbk",
@@ -323,6 +353,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 1_200_000_000_000,
     unit: "stadion",
     category: "olahraga",
+    imageQuery: "stadium aerial sports arena",
   },
   {
     id: "tiket-final-worldcup",
@@ -332,6 +363,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 23_250_000,
     unit: "tiket",
     category: "olahraga",
+    imageQuery: "world cup trophy football championship",
   },
 
   // ── HIBURAN ────────────────────────────────────────────────
@@ -343,6 +375,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 5_000_000,
     unit: "tiket",
     category: "hiburan",
+    imageQuery: "music concert stage lights crowd",
   },
   {
     id: "budget-gta6",
@@ -352,6 +385,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 31_000_000_000_000,
     unit: "game",
     category: "hiburan",
+    imageQuery: "video game controller gaming setup",
   },
   {
     id: "film-endgame",
@@ -361,6 +395,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 5_518_000_000_000,
     unit: "film",
     category: "hiburan",
+    imageQuery: "movie film production cinema hollywood",
   },
   {
     id: "netflix-bulan",
@@ -399,6 +434,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 150_000_000,
     unit: "operasi",
     category: "kesehatan",
+    imageQuery: "heart surgery operating room medical",
   },
   {
     id: "obat-kanker",
@@ -408,6 +444,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 25_000_000,
     unit: "bulan",
     category: "kesehatan",
+    imageQuery: "cancer therapy hospital medicine",
   },
   {
     id: "rsud-baru",
@@ -417,6 +454,7 @@ export const COMPARISONS: ComparisonItem[] = [
     unitPrice: 200_000_000_000,
     unit: "RS",
     category: "kesehatan",
+    imageQuery: "hospital building modern healthcare",
   },
   {
     id: "dialisis-setahun",

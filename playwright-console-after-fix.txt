@@ -1,0 +1,6 @@
+Total messages: 2 (Errors: 0, Warnings: 0)
+Returning 3 messages for level "error"
+
+[ERROR] Failed to load resource: net::ERR_EMPTY_RESPONSE @ http://localhost:3000/api/share-image/teleskop-webb:0
+[ERROR] Failed to load resource: net::ERR_EMPTY_RESPONSE @ http://localhost:3000/api/share-image/roket-falcon9:0
+[ERROR] Failed to load resource: net::ERR_EMPTY_RESPONSE @ http://localhost:3000/api/share-image/teleskop-webb:0

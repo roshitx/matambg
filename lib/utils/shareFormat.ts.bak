@@ -1,0 +1,40 @@
+import type { ComparisonItem } from "@/lib/constants/comparisons"
+
+export function formatCompact(n: number): string {
+  if (!Number.isFinite(n) || n <= 0) return "< 1"
+
+  if (n >= 1e9) {
+    const value = n / 1e9
+    const compact = value >= 100 ? Math.floor(value).toString() : value.toFixed(1).replace(".0", "")
+    return `${compact.replace(".", ",")} Miliar`
+  }
+
+  if (n >= 1e6) {
+    const value = n / 1e6
+    const compact = value >= 100 ? Math.floor(value).toString() : value.toFixed(1).replace(".0", "")
+    return `${compact.replace(".", ",")} Juta`
+  }
+
+  return n.toLocaleString("id-ID")
+}
+
+export function buildShareText(
+  item: ComparisonItem,
+  units: number,
+  platform: "twitter" | "whatsapp"
+): string {
+  const compactUnits = formatCompact(units)
+
+  if (platform === "twitter") {
+    const text = `1 hari anggaran #MBG = ${compactUnits} ${item.unit} ${item.name}! 🇮🇩`
+    if (text.length > 257) {
+      return text.slice(0, 254) + "..."
+    }
+    return text
+  }
+
+  return `*Anggaran Makan Bergizi Gratis dalam 1 hari bisa beli apa?*\n\n` +
+    `${compactUnits} ${item.unit} ${item.name}! 🎉\n\n` +
+    `Dengan anggaran Rp 1,2 Triliun per hari, program #MBG bisa mengganti hidup jutaan anak Indonesia.\n\n` +
+    `Lihat perbandingan lainnya di:`
+}

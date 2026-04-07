@@ -1,19 +1,22 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Share2 } from "lucide-react"
+import { Share2, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { COMPARISONS, type ComparisonCategory, type ComparisonItem } from "@/lib/constants/comparisons"
 import { CATEGORY_BORDER, CATEGORY_LABELS } from "@/lib/constants/ui"
 import { MBG } from "@/lib/constants/mbg"
 import { formatNumber, formatIDR } from "@/lib/utils/format"
+import { canNativeShare } from "@/lib/utils/shareDetect"
+import { getBlobCache, prefetchBlob, setBlobCache } from "@/lib/utils/blobCache"
+import { formatCompact, buildShareText } from "@/lib/utils/shareFormat"
 import { cn } from "@/lib/utils"
 import { ShareModal } from "./ShareModal"
 
 type FilterCategory = ComparisonCategory | "all"
 
 // Count-up animation triggered when element enters viewport
-function CountUp({ target }: { target: number }) {
+function CountUp({ target, itemId }: { target: number; itemId: string }) {
   const ref = useRef<HTMLSpanElement>(null)
   const [value, setValue] = useState(0)
 
@@ -24,6 +27,10 @@ function CountUp({ target }: { target: number }) {
       ([entry]) => {
         if (!entry.isIntersecting) return
         observer.disconnect()
+
+        // PREFETCH: fire-and-forget when card enters viewport
+        prefetchBlob(itemId, `/api/share-image/${itemId}`)
+
         let start: number | null = null
         const step = (ts: number) => {
           if (!start) start = ts
@@ -39,7 +46,7 @@ function CountUp({ target }: { target: number }) {
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [target])
+  }, [target, itemId])
 
   return <span ref={ref}>{formatNumber(value)}</span>
 }
@@ -47,9 +54,10 @@ function CountUp({ target }: { target: number }) {
 interface CardProps {
   item: ComparisonItem
   onShare: (item: ComparisonItem) => void
+  isShareLoading: boolean
 }
 
-function ComparisonCard({ item, onShare }: CardProps) {
+function ComparisonCard({ item, onShare, isShareLoading }: CardProps) {
   const units = Math.floor(MBG.DAILY_BUDGET / item.unitPrice)
   const isFeatured = item.featured === true
 
@@ -72,9 +80,17 @@ function ComparisonCard({ item, onShare }: CardProps) {
           type="button"
           onClick={(e) => { e.stopPropagation(); onShare(item) }}
           aria-label={`Bagikan ${item.name}`}
-          className="cursor-pointer rounded-sm p-0.5 text-muted-foreground/40 opacity-0 transition-all hover:text-foreground group-hover:opacity-100"
+          disabled={isShareLoading}
+          className={cn(
+            "cursor-pointer rounded-sm p-0.5 text-muted-foreground/40 opacity-0 transition-all hover:text-foreground group-hover:opacity-100",
+            isShareLoading && "opacity-100 cursor-not-allowed"
+          )}
         >
-          <Share2 size={11} />
+          {isShareLoading ? (
+            <Loader2 size={11} className="animate-spin" />
+          ) : (
+            <Share2 size={11} />
+          )}
         </button>
       </div>
 
@@ -95,7 +111,7 @@ function ComparisonCard({ item, onShare }: CardProps) {
           isFeatured ? "text-4xl md:text-5xl" : "text-2xl md:text-3xl"
         )}
       >
-        {units > 0 ? <CountUp target={units} /> : "< 1"}
+        {units > 0 ? <CountUp target={units} itemId={item.id} /> : "< 1"}
       </p>
 
       <p className="mt-1.5 text-[11px] font-medium text-foreground line-clamp-2">
@@ -122,6 +138,7 @@ const gridVariants = {
 export function ComparisonGrid() {
   const [activeCategory, setActiveCategory] = useState<FilterCategory>("all")
   const [shareItem, setShareItem] = useState<ComparisonItem | null>(null)
+  const [shareLoadingId, setShareLoadingId] = useState<string | null>(null)
 
   const filtered =
     activeCategory === "all"
@@ -132,6 +149,51 @@ export function ComparisonGrid() {
     "all",
     ...new Set(COMPARISONS.map((c) => c.category)),
   ] as FilterCategory[]
+
+  async function handleShare(item: ComparisonItem) {
+    const nativeSupported = canNativeShare()
+
+    if (!nativeSupported) {
+      // Desktop: open modal
+      setShareItem(item)
+      return
+    }
+
+    // Mobile: native share with prefetch
+    setShareLoadingId(item.id)
+
+    try {
+      // Get blob from cache or fetch
+      const blob = getBlobCache(item.id) ?? await (async () => {
+        const r = await fetch(`/api/share-image/${item.id}`)
+        if (!r.ok) throw new Error("Image fetch failed")
+        const b = await r.blob()
+        setBlobCache(item.id, b)
+        return b
+      })()
+
+      const units = Math.floor(MBG.DAILY_BUDGET / item.unitPrice)
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://matambg.web.id"
+      const compactUnits = formatCompact(units)
+
+      await navigator.share({
+        files: [
+          new File([blob], `matambg-${item.id}.png`, { type: "image/png" })
+        ],
+        title: `1 hari MBG = ${compactUnits} ${item.unit} ${item.name}`,
+        text: buildShareText(item, units, "native"),
+        url: `${appUrl}/perbandingan`,
+      })
+    } catch (err) {
+      // Silent cancel
+      if (err instanceof Error && err.name === "AbortError") return
+
+      // Fallback to desktop modal on error
+      setShareItem(item)
+    } finally {
+      setShareLoadingId(null)
+    }
+  }
 
   return (
     <>
@@ -181,7 +243,11 @@ export function ComparisonGrid() {
                 variants={cardVariants}
                 className={cn(item.featured && "sm:col-span-2")}
               >
-                <ComparisonCard item={item} onShare={setShareItem} />
+                <ComparisonCard
+                  item={item}
+                  onShare={handleShare}
+                  isShareLoading={shareLoadingId === item.id}
+                />
               </motion.div>
             ))}
           </motion.div>

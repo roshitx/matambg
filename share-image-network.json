@@ -1,0 +1,10 @@
+[GET] http://localhost:3000/api/share-image/gudeg-jogja => [FAILED] net::ERR_EMPTY_RESPONSE
+[GET] http://localhost:3000/api/share-image/nasi-padang => [FAILED] net::ERR_EMPTY_RESPONSE
+[GET] http://localhost:3000/api/share-image/gudeg-jogja => [FAILED] net::ERR_EMPTY_RESPONSE
+[GET] http://localhost:3000/api/share-image/nasi-padang => [FAILED] net::ERR_EMPTY_RESPONSE
+[GET] http://localhost:3000/api/share-image/teleskop-webb => [FAILED] net::ERR_EMPTY_RESPONSE
+[GET] http://localhost:3000/api/share-image/roket-falcon9 => [FAILED] net::ERR_EMPTY_RESPONSE
+[GET] http://localhost:3000/api/share-image/teleskop-webb => [FAILED] net::ERR_EMPTY_RESPONSE
+[GET] http://localhost:3000/api/share-image/teleskop-webb => [FAILED] net::ERR_EMPTY_RESPONSE
+[GET] http://localhost:3000/api/share-image/roket-falcon9 => [FAILED] net::ERR_EMPTY_RESPONSE
+[GET] http://localhost:3000/api/share-image/teleskop-webb => [FAILED] net::ERR_EMPTY_RESPONSE

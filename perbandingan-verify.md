@@ -1,0 +1,460 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - link "MBGmata" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: MBGmata
+      - generic [ref=e7]:
+        - list [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Kalkulator" [ref=e10] [cursor=pointer]:
+              - /url: /kalkulator
+          - listitem [ref=e11]:
+            - link "1 Hari MBG =" [ref=e12] [cursor=pointer]:
+              - /url: /perbandingan
+              - text: 1 Hari MBG =
+          - listitem [ref=e14]:
+            - link "Berita" [ref=e15] [cursor=pointer]:
+              - /url: /berita
+        - link "Tanya AI" [ref=e16] [cursor=pointer]:
+          - /url: /tanya-ai
+          - img [ref=e17]
+          - text: Tanya AI
+  - main [ref=e25]:
+    - generic [ref=e27]:
+      - paragraph [ref=e28]: Simulasi Anggaran · APBN 2026
+      - heading "1 Hari MBG =" [level=1] [ref=e29]
+      - paragraph [ref=e31]: Rp 1.2 Triliun
+      - paragraph [ref=e32]: Scroll ke bawah untuk melihat perbandingan 1 hari anggaran MBG dengan berbagai barang dan jasa — lalu bagikan.
+      - generic [ref=e33]:
+        - generic [ref=e34]: Rp 1.2T/hari
+        - generic [ref=e35]: ·
+        - generic [ref=e36]: 43 perbandingan
+    - generic [ref=e39]:
+      - generic [ref=e40]: 43 item
+      - generic [ref=e42]:
+        - button "Semua" [ref=e43] [cursor=pointer]
+        - button "Makanan" [ref=e44] [cursor=pointer]
+        - button "Wisata" [ref=e45] [cursor=pointer]
+        - button "Militer" [ref=e46] [cursor=pointer]
+        - button "Teknologi" [ref=e47] [cursor=pointer]
+        - button "Infrastruktur" [ref=e48] [cursor=pointer]
+        - button "Global" [ref=e49] [cursor=pointer]
+        - button "Luar Angkasa" [ref=e50] [cursor=pointer]
+        - button "Olahraga" [ref=e51] [cursor=pointer]
+        - button "Hiburan" [ref=e52] [cursor=pointer]
+        - button "Kesehatan" [ref=e53] [cursor=pointer]
+    - generic [ref=e55]:
+      - article [ref=e57] [cursor=pointer]:
+        - generic [ref=e58]:
+          - generic [ref=e59]: Makanan
+          - button "Bagikan Nasi Padang" [ref=e60]:
+            - img [ref=e61]
+        - generic [ref=e67]: 🍛
+        - paragraph [ref=e68]: 80.00 Juta
+        - paragraph [ref=e69]: porsi Nasi Padang
+        - paragraph [ref=e70]: "@ Rp 15.000/porsi"
+      - article [ref=e72] [cursor=pointer]:
+        - generic [ref=e73]:
+          - generic [ref=e74]: Makanan
+          - button "Bagikan Gudeg Jogja" [ref=e75]:
+            - img [ref=e76]
+        - generic [ref=e82]: 🍚
+        - paragraph [ref=e83]: 48.00 Juta
+        - paragraph [ref=e84]: porsi Gudeg Jogja
+        - paragraph [ref=e85]: "@ Rp 25.000/porsi"
+      - article [ref=e87] [cursor=pointer]:
+        - generic [ref=e88]:
+          - generic [ref=e89]: Makanan
+          - button "Bagikan Indomie Goreng" [ref=e90]:
+            - img [ref=e91]
+        - generic [ref=e97]: 🫙
+        - paragraph [ref=e98]: "0"
+        - paragraph [ref=e99]: bungkus Indomie Goreng
+        - paragraph [ref=e100]: "@ Rp 3.500/bungkus"
+      - article [ref=e102] [cursor=pointer]:
+        - generic [ref=e103]:
+          - generic [ref=e104]: Makanan
+          - button "Bagikan Gorengan (1 biji)" [ref=e105]:
+            - img [ref=e106]
+        - generic [ref=e112]: 🧆
+        - paragraph [ref=e113]: "0"
+        - paragraph [ref=e114]: biji Gorengan (1 biji)
+        - paragraph [ref=e115]: "@ Rp 2.000/biji"
+      - article [ref=e117] [cursor=pointer]:
+        - generic [ref=e118]:
+          - generic [ref=e119]: Wisata
+          - button "Bagikan Tiket PP ke Bali" [ref=e120]:
+            - img [ref=e121]
+        - generic [ref=e127]: ✈️
+        - paragraph [ref=e128]: "0"
+        - paragraph [ref=e129]: tiket Tiket PP ke Bali
+        - paragraph [ref=e130]: "@ Rp 500.000/tiket"
+      - article [ref=e132] [cursor=pointer]:
+        - generic [ref=e133]:
+          - generic [ref=e134]: Wisata
+          - button "Bagikan Liburan Lombok 3D2N" [ref=e135]:
+            - img [ref=e136]
+        - generic [ref=e142]: 🏝️
+        - paragraph [ref=e143]: "0"
+        - paragraph [ref=e144]: trip Liburan Lombok 3D2N
+        - paragraph [ref=e145]: "@ Rp 1.5 Jt/trip"
+      - article [ref=e147] [cursor=pointer]:
+        - generic [ref=e148]:
+          - generic [ref=e149]: Militer
+          - button "Bagikan Kapal Induk USS Gerald Ford" [ref=e150]:
+            - img [ref=e151]
+        - generic [ref=e157]: ⚓
+        - paragraph [ref=e158]: < 1
+        - paragraph [ref=e159]: kapal Kapal Induk USS Gerald Ford
+        - paragraph [ref=e160]: "@ Rp 213.0 T/kapal"
+      - article [ref=e162] [cursor=pointer]:
+        - generic [ref=e163]:
+          - generic [ref=e164]: Militer
+          - button "Bagikan Jet Tempur F-35 Lightning II" [ref=e165]:
+            - img [ref=e166]
+        - generic [ref=e172]: 🛩️
+        - paragraph [ref=e173]: < 1
+        - paragraph [ref=e174]: pesawat Jet Tempur F-35 Lightning II
+        - paragraph [ref=e175]: "@ Rp 1.6 T/pesawat"
+      - article [ref=e177] [cursor=pointer]:
+        - generic [ref=e178]:
+          - generic [ref=e179]: Militer
+          - button "Bagikan Tank Tempur Leopard 2A4" [ref=e180]:
+            - img [ref=e181]
+        - generic [ref=e187]: 🪖
+        - paragraph [ref=e188]: "0"
+        - paragraph [ref=e189]: tank Tank Tempur Leopard 2A4
+        - paragraph [ref=e190]: "@ Rp 108.5 M/tank"
+      - article [ref=e192] [cursor=pointer]:
+        - generic [ref=e193]:
+          - generic [ref=e194]: Militer
+          - button "Bagikan Kapal Selam Tipe 209" [ref=e195]:
+            - img [ref=e196]
+        - generic [ref=e202]: 🐋
+        - paragraph [ref=e203]: < 1
+        - paragraph [ref=e204]: kapal Kapal Selam Tipe 209
+        - paragraph [ref=e205]: "@ Rp 7.8 T/kapal"
+      - article [ref=e207] [cursor=pointer]:
+        - generic [ref=e208]:
+          - generic [ref=e209]: Militer
+          - button "Bagikan Rudal Jelajah Tomahawk" [ref=e210]:
+            - img [ref=e211]
+        - generic [ref=e217]: 🚀
+        - paragraph [ref=e218]: "0"
+        - paragraph [ref=e219]: rudal Rudal Jelajah Tomahawk
+        - paragraph [ref=e220]: "@ Rp 29.0 M/rudal"
+      - article [ref=e222] [cursor=pointer]:
+        - generic [ref=e223]:
+          - generic [ref=e224]: Teknologi
+          - button "Bagikan iPhone 16 Pro Max" [ref=e225]:
+            - img [ref=e226]
+        - generic [ref=e232]: 📱
+        - paragraph [ref=e233]: "0"
+        - paragraph [ref=e234]: unit iPhone 16 Pro Max
+        - paragraph [ref=e235]: "@ Rp 24.0 Jt/unit"
+      - article [ref=e237] [cursor=pointer]:
+        - generic [ref=e238]:
+          - generic [ref=e239]: Teknologi
+          - button "Bagikan MacBook Pro M4" [ref=e240]:
+            - img [ref=e241]
+        - generic [ref=e247]: 💻
+        - paragraph [ref=e248]: "0"
+        - paragraph [ref=e249]: unit MacBook Pro M4
+        - paragraph [ref=e250]: "@ Rp 29.0 Jt/unit"
+      - article [ref=e252] [cursor=pointer]:
+        - generic [ref=e253]:
+          - generic [ref=e254]: Teknologi
+          - button "Bagikan Motor Listrik" [ref=e255]:
+            - img [ref=e256]
+        - generic [ref=e262]: 🛵
+        - paragraph [ref=e263]: "0"
+        - paragraph [ref=e264]: unit Motor Listrik
+        - paragraph [ref=e265]: "@ Rp 30.0 Jt/unit"
+      - article [ref=e267] [cursor=pointer]:
+        - generic [ref=e268]:
+          - generic [ref=e269]: Infrastruktur
+          - button "Bagikan Puskesmas Baru" [ref=e270]:
+            - img [ref=e271]
+        - generic [ref=e277]: 🏥
+        - paragraph [ref=e278]: "0"
+        - paragraph [ref=e279]: puskesmas Puskesmas Baru
+        - paragraph [ref=e280]: "@ Rp 2.0 M/puskesmas"
+      - article [ref=e282] [cursor=pointer]:
+        - generic [ref=e283]:
+          - generic [ref=e284]: Infrastruktur
+          - button "Bagikan Gaji Guru 1 Bulan" [ref=e285]:
+            - img [ref=e286]
+        - generic [ref=e292]: 🎓
+        - paragraph [ref=e293]: "0"
+        - paragraph [ref=e294]: guru Gaji Guru 1 Bulan
+        - paragraph [ref=e295]: "@ Rp 500.000/guru"
+      - article [ref=e297] [cursor=pointer]:
+        - generic [ref=e298]:
+          - generic [ref=e299]: Infrastruktur
+          - button "Bagikan Rumah Subsidi" [ref=e300]:
+            - img [ref=e301]
+        - generic [ref=e307]: 🏠
+        - paragraph [ref=e308]: "0"
+        - paragraph [ref=e309]: unit Rumah Subsidi
+        - paragraph [ref=e310]: "@ Rp 185.0 Jt/unit"
+      - article [ref=e312] [cursor=pointer]:
+        - generic [ref=e313]:
+          - generic [ref=e314]: Infrastruktur
+          - button "Bagikan Jalan Tol 1 KM" [ref=e315]:
+            - img [ref=e316]
+        - generic [ref=e322]: 🛣️
+        - paragraph [ref=e323]: "0"
+        - paragraph [ref=e324]: km Jalan Tol 1 KM
+        - paragraph [ref=e325]: "@ Rp 100.0 M/km"
+      - article [ref=e327] [cursor=pointer]:
+        - generic [ref=e328]:
+          - generic [ref=e329]: Infrastruktur
+          - button "Bagikan Ambulans Baru" [ref=e330]:
+            - img [ref=e331]
+        - generic [ref=e337]: 🚑
+        - paragraph [ref=e338]: "0"
+        - paragraph [ref=e339]: unit Ambulans Baru
+        - paragraph [ref=e340]: "@ Rp 400.0 Jt/unit"
+      - article [ref=e342] [cursor=pointer]:
+        - generic [ref=e343]:
+          - generic [ref=e344]: Infrastruktur
+          - button "Bagikan Beasiswa Kuliah 1 Tahun" [ref=e345]:
+            - img [ref=e346]
+        - generic [ref=e352]: 📚
+        - paragraph [ref=e353]: "0"
+        - paragraph [ref=e354]: mahasiswa Beasiswa Kuliah 1 Tahun
+        - paragraph [ref=e355]: "@ Rp 8.0 Jt/mahasiswa"
+      - article [ref=e357] [cursor=pointer]:
+        - generic [ref=e358]:
+          - generic [ref=e359]: Global
+          - button "Bagikan GDP Timor Leste 1 Tahun" [ref=e360]:
+            - img [ref=e361]
+        - generic [ref=e367]: 🌏
+        - paragraph [ref=e368]: < 1
+        - paragraph [ref=e369]: negara GDP Timor Leste 1 Tahun
+        - paragraph [ref=e370]: "@ Rp 46.5 T/negara"
+      - article [ref=e372] [cursor=pointer]:
+        - generic [ref=e373]:
+          - generic [ref=e374]: Global
+          - button "Bagikan Anggaran WHO 1 Tahun" [ref=e375]:
+            - img [ref=e376]
+        - generic [ref=e382]: 🏛️
+        - paragraph [ref=e383]: < 1
+        - paragraph [ref=e384]: tahun Anggaran WHO 1 Tahun
+        - paragraph [ref=e385]: "@ Rp 93.0 T/tahun"
+      - article [ref=e387] [cursor=pointer]:
+        - generic [ref=e388]:
+          - generic [ref=e389]: Luar Angkasa
+          - button "Bagikan Anggaran NASA 1 Tahun" [ref=e390]:
+            - img [ref=e391]
+        - generic [ref=e397]: 🔭
+        - paragraph [ref=e398]: < 1
+        - paragraph [ref=e399]: tahun Anggaran NASA 1 Tahun
+        - paragraph [ref=e400]: "@ Rp 393.7 T/tahun"
+      - article [ref=e402] [cursor=pointer]:
+        - generic [ref=e403]:
+          - generic [ref=e404]: Luar Angkasa
+          - button "Bagikan Roket Falcon 9 SpaceX" [ref=e405]:
+            - img [ref=e406]
+        - generic [ref=e412]: 🚀
+        - paragraph [ref=e413]: "0"
+        - paragraph [ref=e414]: roket Roket Falcon 9 SpaceX
+        - paragraph [ref=e415]: "@ Rp 1.0 T/roket"
+      - article [ref=e417] [cursor=pointer]:
+        - generic [ref=e418]:
+          - generic [ref=e419]: Luar Angkasa
+          - button "Bagikan 1 Launch Starship SpaceX" [ref=e420]:
+            - img [ref=e421]
+        - generic [ref=e427]: 🛸
+        - paragraph [ref=e428]: < 1
+        - paragraph [ref=e429]: launch 1 Launch Starship SpaceX
+        - paragraph [ref=e430]: "@ Rp 1.6 T/launch"
+      - article [ref=e432] [cursor=pointer]:
+        - generic [ref=e433]:
+          - generic [ref=e434]: Luar Angkasa
+          - button "Bagikan Teleskop James Webb" [ref=e435]:
+            - img [ref=e436]
+        - generic [ref=e442]: 🌌
+        - paragraph [ref=e443]: < 1
+        - paragraph [ref=e444]: teleskop Teleskop James Webb
+        - paragraph [ref=e445]: "@ Rp 155.0 T/teleskop"
+      - article [ref=e447] [cursor=pointer]:
+        - generic [ref=e448]:
+          - generic [ref=e449]: Luar Angkasa
+          - button "Bagikan Satelit Komunikasi" [ref=e450]:
+            - img [ref=e451]
+        - generic [ref=e457]: 📡
+        - paragraph [ref=e458]: < 1
+        - paragraph [ref=e459]: satelit Satelit Komunikasi
+        - paragraph [ref=e460]: "@ Rp 3.1 T/satelit"
+      - article [ref=e462] [cursor=pointer]:
+        - generic [ref=e463]:
+          - generic [ref=e464]: Luar Angkasa
+          - button "Bagikan Biaya Bangun ISS" [ref=e465]:
+            - img [ref=e466]
+        - generic [ref=e472]: 🛰️
+        - paragraph [ref=e473]: < 1
+        - paragraph [ref=e474]: stasiun Biaya Bangun ISS
+        - paragraph [ref=e475]: "@ Rp 2325.0 T/stasiun"
+      - article [ref=e477] [cursor=pointer]:
+        - generic [ref=e478]:
+          - generic [ref=e479]: Olahraga
+          - button "Bagikan Transfer Neymar ke PSG" [ref=e480]:
+            - img [ref=e481]
+        - generic [ref=e487]: ⚽
+        - paragraph [ref=e488]: < 1
+        - paragraph [ref=e489]: transfer Transfer Neymar ke PSG
+        - paragraph [ref=e490]: "@ Rp 3.8 T/transfer"
+      - article [ref=e492] [cursor=pointer]:
+        - generic [ref=e493]:
+          - generic [ref=e494]: Olahraga
+          - button "Bagikan Gaji Mbappé per Tahun" [ref=e495]:
+            - img [ref=e496]
+        - generic [ref=e502]: 🏃
+        - paragraph [ref=e503]: < 1
+        - paragraph [ref=e504]: tahun Gaji Mbappé per Tahun
+        - paragraph [ref=e505]: "@ Rp 3.4 T/tahun"
+      - article [ref=e507] [cursor=pointer]:
+        - generic [ref=e508]:
+          - generic [ref=e509]: Olahraga
+          - button "Bagikan Mobil Formula 1" [ref=e510]:
+            - img [ref=e511]
+        - generic [ref=e517]: 🏎️
+        - paragraph [ref=e518]: "0"
+        - paragraph [ref=e519]: mobil Mobil Formula 1
+        - paragraph [ref=e520]: "@ Rp 232.5 M/mobil"
+      - article [ref=e522] [cursor=pointer]:
+        - generic [ref=e523]:
+          - generic [ref=e524]: Olahraga
+          - button "Bagikan Renovasi Stadion GBK" [ref=e525]:
+            - img [ref=e526]
+        - generic [ref=e532]: 🏟️
+        - paragraph [ref=e533]: "0"
+        - paragraph [ref=e534]: stadion Renovasi Stadion GBK
+        - paragraph [ref=e535]: "@ Rp 1.2 T/stadion"
+      - article [ref=e537] [cursor=pointer]:
+        - generic [ref=e538]:
+          - generic [ref=e539]: Olahraga
+          - button "Bagikan Tiket Final Piala Dunia" [ref=e540]:
+            - img [ref=e541]
+        - generic [ref=e547]: 🏆
+        - paragraph [ref=e548]: "0"
+        - paragraph [ref=e549]: tiket Tiket Final Piala Dunia
+        - paragraph [ref=e550]: "@ Rp 23.3 Jt/tiket"
+      - article [ref=e552] [cursor=pointer]:
+        - generic [ref=e553]:
+          - generic [ref=e554]: Hiburan
+          - button "Bagikan Tiket Konser Taylor Swift" [ref=e555]:
+            - img [ref=e556]
+        - generic [ref=e562]: 🎤
+        - paragraph [ref=e563]: "0"
+        - paragraph [ref=e564]: tiket Tiket Konser Taylor Swift
+        - paragraph [ref=e565]: "@ Rp 5.0 Jt/tiket"
+      - article [ref=e567] [cursor=pointer]:
+        - generic [ref=e568]:
+          - generic [ref=e569]: Hiburan
+          - button "Bagikan Budget Dev GTA 6" [ref=e570]:
+            - img [ref=e571]
+        - generic [ref=e577]: 🎮
+        - paragraph [ref=e578]: < 1
+        - paragraph [ref=e579]: game Budget Dev GTA 6
+        - paragraph [ref=e580]: "@ Rp 31.0 T/game"
+      - article [ref=e582] [cursor=pointer]:
+        - generic [ref=e583]:
+          - generic [ref=e584]: Hiburan
+          - button "Bagikan Budget Film Avengers Endgame" [ref=e585]:
+            - img [ref=e586]
+        - generic [ref=e592]: 🎬
+        - paragraph [ref=e593]: < 1
+        - paragraph [ref=e594]: film Budget Film Avengers Endgame
+        - paragraph [ref=e595]: "@ Rp 5.5 T/film"
+      - article [ref=e597] [cursor=pointer]:
+        - generic [ref=e598]:
+          - generic [ref=e599]: Hiburan
+          - button "Bagikan Netflix Premium 1 Bulan" [ref=e600]:
+            - img [ref=e601]
+        - generic [ref=e607]: 📺
+        - paragraph [ref=e608]: "0"
+        - paragraph [ref=e609]: bulan Netflix Premium 1 Bulan
+        - paragraph [ref=e610]: "@ Rp 65.000/bulan"
+      - article [ref=e612] [cursor=pointer]:
+        - generic [ref=e613]:
+          - generic [ref=e614]: Hiburan
+          - button "Bagikan Spotify Premium 1 Tahun" [ref=e615]:
+            - img [ref=e616]
+        - generic [ref=e622]: 🎵
+        - paragraph [ref=e623]: "0"
+        - paragraph [ref=e624]: tahun Spotify Premium 1 Tahun
+        - paragraph [ref=e625]: "@ Rp 659.880/tahun"
+      - article [ref=e627] [cursor=pointer]:
+        - generic [ref=e628]:
+          - generic [ref=e629]: Kesehatan
+          - button "Bagikan Vaksin COVID-19 per Dosis" [ref=e630]:
+            - img [ref=e631]
+        - generic [ref=e637]: 💉
+        - paragraph [ref=e638]: "0"
+        - paragraph [ref=e639]: dosis Vaksin COVID-19 per Dosis
+        - paragraph [ref=e640]: "@ Rp 50.000/dosis"
+      - article [ref=e642] [cursor=pointer]:
+        - generic [ref=e643]:
+          - generic [ref=e644]: Kesehatan
+          - button "Bagikan Operasi Bypass Jantung" [ref=e645]:
+            - img [ref=e646]
+        - generic [ref=e652]: ❤️
+        - paragraph [ref=e653]: "0"
+        - paragraph [ref=e654]: operasi Operasi Bypass Jantung
+        - paragraph [ref=e655]: "@ Rp 150.0 Jt/operasi"
+      - article [ref=e657] [cursor=pointer]:
+        - generic [ref=e658]:
+          - generic [ref=e659]: Kesehatan
+          - button "Bagikan Terapi Kanker 1 Bulan" [ref=e660]:
+            - img [ref=e661]
+        - generic [ref=e667]: 🧬
+        - paragraph [ref=e668]: "0"
+        - paragraph [ref=e669]: bulan Terapi Kanker 1 Bulan
+        - paragraph [ref=e670]: "@ Rp 25.0 Jt/bulan"
+      - article [ref=e672] [cursor=pointer]:
+        - generic [ref=e673]:
+          - generic [ref=e674]: Kesehatan
+          - button "Bagikan RS Umum Daerah Tipe B" [ref=e675]:
+            - img [ref=e676]
+        - generic [ref=e682]: 🏨
+        - paragraph [ref=e683]: "0"
+        - paragraph [ref=e684]: RS RS Umum Daerah Tipe B
+        - paragraph [ref=e685]: "@ Rp 200.0 M/RS"
+      - article [ref=e687] [cursor=pointer]:
+        - generic [ref=e688]:
+          - generic [ref=e689]: Kesehatan
+          - button "Bagikan Cuci Darah 1 Pasien/Tahun" [ref=e690]:
+            - img [ref=e691]
+        - generic [ref=e697]: 🩺
+        - paragraph [ref=e698]: "0"
+        - paragraph [ref=e699]: pasien Cuci Darah 1 Pasien/Tahun
+        - paragraph [ref=e700]: "@ Rp 120.0 Jt/pasien"
+    - generic [ref=e702]:
+      - generic [ref=e703]:
+        - img [ref=e704]
+        - heading "Buat Perbandingan Sendiri" [level=3] [ref=e707]
+        - generic [ref=e708]: "Budget: Rp 438.0 T"
+      - paragraph [ref=e709]: Ketik nama barang apa saja — AI akan hitung berapa bisa dibeli dengan anggaran MBG.
+      - generic [ref=e710]:
+        - 'textbox "cth: Ferrari Roma, helikopter, satelit..." [ref=e711]'
+        - button "Generate →" [disabled] [ref=e712]:
+          - img [ref=e713]
+          - text: Generate →
+      - paragraph [ref=e716]: Perhitungan menggunakan data publik, hasil perkiraan
+  - contentinfo [ref=e717]:
+    - generic [ref=e719]:
+      - generic [ref=e722]: MBGmata
+      - paragraph [ref=e723]: Data berdasarkan dokumen resmi pemerintah. Bukan afiliasi pemerintah.
+      - navigation [ref=e724]:
+        - link "Kalkulator" [ref=e725] [cursor=pointer]:
+          - /url: /kalkulator
+        - link "Berita" [ref=e726] [cursor=pointer]:
+          - /url: /berita
+        - link "Tanya AI" [ref=e727] [cursor=pointer]:
+          - /url: /tanya-ai
+  - button "Open Next.js Dev Tools" [ref=e733] [cursor=pointer]:
+    - img [ref=e734]
+  - alert [ref=e737]

@@ -1,0 +1,4 @@
+[GET] http://localhost:3000/api/share-image/gudeg-jogja => [200] OK
+[GET] http://localhost:3000/api/share-image/nasi-padang => [200] OK
+[GET] http://localhost:3000/api/share-image/teleskop-webb => [200] OK
+[GET] http://localhost:3000/api/share-image/roket-falcon9 => [200] OK
